@@ -49,7 +49,7 @@ export function Header() {
               e.preventDefault();
               handleNavClick("#home");
             }}
-            className="text-xl md:text-2xl font-extrabold tracking-tight text-white uppercase"
+            className="text-xl md:text-2xl font-extrabold tracking-tight text-white uppercase font-[family-name:var(--font-unbounded)]"
           >
             {SITE_CONFIG.name}
           </a>

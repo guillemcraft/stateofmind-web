@@ -100,7 +100,7 @@ export function HeroSection() {
 
       {/* Content */}
       <div className="relative z-10 h-full flex flex-col justify-end pb-20 px-6 md:px-12 max-w-[1400px] mx-auto">
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold text-white uppercase tracking-tight animate-fade-up">
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold text-white uppercase tracking-tight animate-fade-up font-[family-name:var(--font-unbounded)]">
           State Of Mind
         </h1>
         <p className="text-lg md:text-xl text-white/80 mt-4 max-w-xl animate-fade-up" style={{ animationDelay: "0.1s" }}>
