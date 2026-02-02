@@ -4,11 +4,9 @@ export const SITE_CONFIG = {
   description: "State Of Mind | Electronic Music Duo",
   email: "booking@stateofmind.com",
   social: {
-    instagram: "https://instagram.com/stateofmind",
-    soundcloud: "https://soundcloud.com/stateofmind",
-    spotify: "https://spotify.com/artist/stateofmind",
-    youtube: "https://youtube.com/@stateofmind",
-    tiktok: "https://tiktok.com/@stateofmind",
+    instagram: "https://instagram.com/stateofmind.live",
+    soundcloud: "https://soundcloud.com/state-of-mind-official",
+    youtube: "https://youtu.be/v4R1SC3PGxk",
   },
 };
 
