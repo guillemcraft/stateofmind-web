@@ -78,6 +78,10 @@ export const metadata: Metadata = {
     canonical: "https://stateofmind.es",
   },
   category: "music",
+  icons: {
+    icon: "/images/artists.png",
+    apple: "/images/artists.png",
+  },
 };
 
 export default function RootLayout({
