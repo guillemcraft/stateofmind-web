@@ -38,10 +38,10 @@ export function Header() {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${
-          isScrolled ? "bg-black" : "bg-transparent"
+          isScrolled || isMobileMenuOpen ? "bg-black" : "bg-transparent"
         }`}
       >
-        <nav className="max-w-[1400px] mx-auto px-6 md:px-12 py-6 flex items-center justify-between">
+        <nav className="max-w-[1400px] mx-auto px-6 md:px-12 h-16 md:h-20 flex items-center justify-between">
           {/* Logo */}
           <a
             href="#home"
@@ -49,7 +49,7 @@ export function Header() {
               e.preventDefault();
               handleNavClick("#home");
             }}
-            className="text-2xl md:text-3xl font-extrabold tracking-tight text-white uppercase"
+            className="text-xl md:text-2xl font-extrabold tracking-tight text-white uppercase"
           >
             {SITE_CONFIG.name}
           </a>
@@ -75,7 +75,7 @@ export function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden text-white p-2"
+            className="lg:hidden text-white p-2 relative z-[101]"
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
             <div className="w-7 h-5 relative flex flex-col justify-between">
@@ -101,8 +101,8 @@ export function Header() {
 
       {/* Mobile Menu */}
       <div
-        className={`lg:hidden fixed inset-0 z-[99] bg-black transition-all duration-500 ${
-          isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        className={`lg:hidden fixed inset-0 z-[99] bg-black transition-all duration-300 ${
+          isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
         }`}
       >
         <div className="flex flex-col items-center justify-center h-full">
