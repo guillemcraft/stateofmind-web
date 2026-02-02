@@ -19,6 +19,7 @@ const unbounded = Unbounded({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://stateofmind.es"),
   title: "State Of Mind | DJ & Producer",
   description: "Experience the sound that moves the underground. Electronic music producer and DJ pushing the boundaries of techno and house.",
   keywords: ["DJ", "Producer", "Electronic Music", "Techno", "House", "State Of Mind"],
@@ -26,6 +27,14 @@ export const metadata: Metadata = {
     title: "State Of Mind | DJ & Producer",
     description: "Experience the sound that moves the underground.",
     type: "website",
+    images: [
+      {
+        url: "/images/artists.png",
+        width: 1200,
+        height: 630,
+        alt: "State Of Mind",
+      },
+    ],
   },
 };
 
