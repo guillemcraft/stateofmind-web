@@ -1,8 +1,79 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+
+declare global {
+  interface Window {
+    YT: {
+      Player: new (
+        elementId: string,
+        config: {
+          videoId: string;
+          playerVars: Record<string, number | string>;
+          events: {
+            onReady: (event: { target: YTPlayer }) => void;
+            onStateChange?: (event: { data: number }) => void;
+          };
+        }
+      ) => YTPlayer;
+    };
+    onYouTubeIframeAPIReady: () => void;
+  }
+}
+
+interface YTPlayer {
+  setPlaybackQuality: (quality: string) => void;
+  playVideo: () => void;
+  mute: () => void;
+}
+
 export function HeroSection() {
+  const playerRef = useRef<YTPlayer | null>(null);
   const videoId = "v4R1SC3PGxk";
-  const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&loop=1&controls=0&playlist=${videoId}&playsinline=1&showinfo=0&rel=0&modestbranding=1&disablekb=1&vq=hd1080&hd=1&start=75`;
+
+  useEffect(() => {
+    // Load YouTube IFrame API
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName("script")[0];
+    firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+
+    window.onYouTubeIframeAPIReady = () => {
+      playerRef.current = new window.YT.Player("yt-player", {
+        videoId: videoId,
+        playerVars: {
+          autoplay: 1,
+          mute: 1,
+          loop: 1,
+          playlist: videoId,
+          controls: 0,
+          showinfo: 0,
+          rel: 0,
+          modestbranding: 1,
+          playsinline: 1,
+          start: 75,
+          vq: "hd1080",
+        },
+        events: {
+          onReady: (event) => {
+            event.target.setPlaybackQuality("hd1080");
+            event.target.mute();
+            event.target.playVideo();
+          },
+          onStateChange: (event) => {
+            if (event.data === 1) {
+              // Playing - set quality again
+              playerRef.current?.setPlaybackQuality("hd1080");
+            }
+          },
+        },
+      });
+    };
+
+    return () => {
+      window.onYouTubeIframeAPIReady = () => {};
+    };
+  }, []);
 
   const scrollToContent = () => {
     const element = document.getElementById("agenda");
@@ -15,17 +86,15 @@ export function HeroSection() {
     <section id="home" className="relative h-screen w-full overflow-hidden bg-black">
       {/* YouTube Background */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
-        <iframe
-          src={embedUrl}
-          title="Background Video"
-          className="absolute top-1/2 left-1/2 w-[300%] h-[300%] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+        <div
+          id="yt-player"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
           style={{
-            border: "none",
+            width: "177.78vh",
+            height: "100vh",
             minWidth: "100vw",
-            minHeight: "100vh",
+            minHeight: "56.25vw",
           }}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
         />
       </div>
 
