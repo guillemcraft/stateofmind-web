@@ -85,19 +85,34 @@ export function HeroSection() {
 
   return (
     <section id="home" className="relative h-screen w-full overflow-hidden bg-black">
-      {/* Poster image — shown instantly while video loads */}
+      {/* Loading screen — shown while video loads */}
       <div
-        className="absolute inset-0 transition-opacity duration-1000"
+        className="absolute inset-0 z-20 transition-opacity duration-1000 pointer-events-none"
         style={{ opacity: videoReady ? 0 : 1 }}
       >
-        <Image
-          src="/images/artists.png"
-          alt="State Of Mind"
-          fill
-          priority
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-black/40" />
+        {/* Artist image with slow zoom */}
+        <div className="absolute inset-0 hero-zoom">
+          <Image
+            src="/images/artists.png"
+            alt="State Of Mind"
+            fill
+            priority
+            className="object-cover"
+          />
+        </div>
+        <div className="absolute inset-0 bg-black/60" />
+
+        {/* Pulsing loader */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="relative flex items-center justify-center">
+            {/* Outer ring */}
+            <div className="hero-pulse-ring absolute w-24 h-24 rounded-full border border-[#00f5ff]/40" />
+            {/* Inner ring */}
+            <div className="hero-pulse-ring-delay absolute w-16 h-16 rounded-full border border-[#00f5ff]/60" />
+            {/* Center dot */}
+            <div className="w-2 h-2 rounded-full bg-[#00f5ff] hero-pulse-dot" />
+          </div>
+        </div>
       </div>
 
       {/* YouTube Background */}
