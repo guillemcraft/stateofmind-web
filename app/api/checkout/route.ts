@@ -16,8 +16,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL || `http://localhost:3000`;
+    const origin = request.headers.get("origin") || request.nextUrl.origin;
 
     const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card"],
@@ -35,8 +34,8 @@ export async function POST(request: NextRequest) {
           quantity: 1,
         },
       ],
-      success_url: `${baseUrl}/support/success`,
-      cancel_url: `${baseUrl}/#support`,
+      success_url: `${origin}/support/success`,
+      cancel_url: `${origin}/#support`,
     });
 
     return NextResponse.json({ url: session.url });
