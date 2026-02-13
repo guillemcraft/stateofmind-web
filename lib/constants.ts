@@ -74,7 +74,7 @@ export const EVENTS_CONTENT = {
   events: [
     {
       id: 1,
-      date: "2026-06-13",
+      date: "2026-02-13",
       venue: "Zaatar",
       city: "Barcelona",
       country: "ES",
@@ -83,7 +83,7 @@ export const EVENTS_CONTENT = {
     },
     {
       id: 2,
-      date: "2026-06-27",
+      date: "2026-02-27",
       venue: "Dublin the Weekend",
       city: "Dublin",
       country: "IE",
@@ -92,7 +92,7 @@ export const EVENTS_CONTENT = {
     },
     {
       id: 3,
-      date: "2026-06-13",
+      date: "2026-03-13",
       venue: "Volta",
       city: "Barcelona",
       country: "ES",
