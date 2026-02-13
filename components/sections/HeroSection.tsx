@@ -41,9 +41,9 @@ export function HeroSection() {
     return () => clearTimeout(timer);
   }, [countdown]);
 
-  // When countdown finishes AND video is loaded, reveal
+  // When countdown finishes, reveal (don't wait for video on mobile)
   useEffect(() => {
-    if (countdown <= 0 && videoLoadedRef.current) {
+    if (countdown <= 0) {
       setVideoReady(true);
     }
   }, [countdown]);
@@ -102,24 +102,26 @@ export function HeroSection() {
   return (
     <section id="home" className="relative h-screen w-full overflow-hidden bg-black">
       {/* Loading overlay — black screen with countdown */}
-      {!videoReady && (
-        <div className="absolute inset-0 z-30 bg-black flex items-center justify-center">
-          <div className="relative flex flex-col items-center gap-6">
-            {/* Countdown number */}
-            <span
-              key={countdown}
-              className="text-[8rem] md:text-[12rem] font-extrabold text-white/10 leading-none font-[family-name:var(--font-unbounded)] countdown-number"
-            >
-              {countdown > 0 ? countdown : ""}
-            </span>
+      <div
+        className={`absolute inset-0 z-30 bg-black flex items-center justify-center transition-opacity duration-700 ${
+          videoReady ? "opacity-0 pointer-events-none" : "opacity-100"
+        }`}
+      >
+        <div className="relative flex flex-col items-center gap-6">
+          {/* Countdown number */}
+          <span
+            key={countdown}
+            className="text-[8rem] md:text-[12rem] font-extrabold text-white/10 leading-none font-[family-name:var(--font-unbounded)] countdown-number"
+          >
+            {countdown > 0 ? countdown : ""}
+          </span>
 
-            {/* Thin progress bar */}
-            <div className="w-32 h-[1px] bg-white/10 overflow-hidden">
-              <div className="h-full bg-[#00f5ff] hero-progress-bar" />
-            </div>
+          {/* Thin progress bar */}
+          <div className="w-32 h-[1px] bg-white/10 overflow-hidden">
+            <div className="h-full bg-[#00f5ff] hero-progress-bar" />
           </div>
         </div>
-      )}
+      </div>
 
       {/* YouTube Background */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
