@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/sections/HeroSection";
@@ -17,9 +16,7 @@ export default function Home() {
         <EventsSection />
         <MusicSection />
         <AboutSection />
-        <Suspense>
-          <SupportSection />
-        </Suspense>
+        <SupportSection />
         <ContactSection />
       </main>
       <Footer />

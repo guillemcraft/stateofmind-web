@@ -1,13 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { SUPPORT_CONTENT } from "@/lib/constants";
 
 export function SupportSection() {
-  const searchParams = useSearchParams();
-  const isSuccess = searchParams.get("support") === "success";
-
   const [selectedAmount, setSelectedAmount] = useState<number | null>(10);
   const [customAmount, setCustomAmount] = useState("");
   const [isCustom, setIsCustom] = useState(false);
@@ -62,31 +58,6 @@ export function SupportSection() {
 
         {/* Card */}
         <div className="max-w-xl mx-auto">
-          {isSuccess ? (
-            /* Thank-you state */
-            <div className="text-center py-12">
-              <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#00f5ff]/10 flex items-center justify-center">
-                <svg
-                  className="w-8 h-8 text-[#00f5ff]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4.5 12.75l6 6 9-13.5"
-                  />
-                </svg>
-              </div>
-              <p className="text-xl text-white/80">
-                {SUPPORT_CONTENT.thankYouMessage}
-              </p>
-            </div>
-          ) : (
-            /* Payment form */
-            <>
               <p className="text-white/60 leading-relaxed text-lg mb-10">
                 {SUPPORT_CONTENT.description}
               </p>
@@ -163,8 +134,6 @@ export function SupportSection() {
               <p className="text-center text-white/30 text-sm mt-6">
                 Secure payment via Stripe
               </p>
-            </>
-          )}
         </div>
       </div>
     </section>

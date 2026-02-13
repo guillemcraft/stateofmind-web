@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
           quantity: 1,
         },
       ],
-      success_url: `${baseUrl}/?support=success`,
+      success_url: `${baseUrl}/support/success`,
       cancel_url: `${baseUrl}/#support`,
     });
 
