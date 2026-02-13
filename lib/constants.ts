@@ -79,7 +79,7 @@ export const EVENTS_CONTENT = {
       city: "Barcelona",
       country: "ES",
       ticketUrl: "#",
-      soldOut: false,
+      soldOut: true,
     },
     {
       id: 2,
@@ -88,7 +88,7 @@ export const EVENTS_CONTENT = {
       city: "Dublin",
       country: "IE",
       ticketUrl: "#",
-      soldOut: false,
+      soldOut: true,
     },
     {
       id: 3,
@@ -97,7 +97,7 @@ export const EVENTS_CONTENT = {
       city: "Barcelona",
       country: "ES",
       ticketUrl: "#",
-      soldOut: false,
+      soldOut: true,
     },
     {
       id: 4,
@@ -107,7 +107,7 @@ export const EVENTS_CONTENT = {
       city: "Costa Brava",
       country: "ES",
       ticketUrl: "#",
-      soldOut: false,
+      soldOut: true,
     },
   ],
 };
