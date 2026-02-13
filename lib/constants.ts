@@ -14,6 +14,7 @@ export const NAV_LINKS = [
   { href: "#agenda", label: "Agenda" },
   { href: "#music", label: "Music" },
   { href: "#about", label: "About" },
+  { href: "#support", label: "Support" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -110,6 +111,16 @@ export const EVENTS_CONTENT = {
       soldOut: true,
     },
   ],
+};
+
+export const SUPPORT_CONTENT = {
+  title: "Support",
+  subtitle: "Support the Artist",
+  description:
+    "We release music every week independently — no label, no middleman. If our sound moves you, a small contribution helps us keep creating.",
+  presets: [5, 10, 25, 50],
+  currency: "EUR",
+  thankYouMessage: "Thank you for your support! It means the world to us.",
 };
 
 export const CONTACT_CONTENT = {
