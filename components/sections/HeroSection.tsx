@@ -61,17 +61,17 @@ export function HeroSection() {
           modestbranding: 1,
           playsinline: 1,
           start: 75,
-          vq: "hd1080",
+          vq: "highres",
         },
         events: {
           onReady: (event) => {
-            event.target.setPlaybackQuality("hd1080");
+            event.target.setPlaybackQuality("highres");
             event.target.mute();
             event.target.playVideo();
           },
           onStateChange: (event) => {
             if (event.data === 1) {
-              playerRef.current?.setPlaybackQuality("hd1080");
+              playerRef.current?.setPlaybackQuality("highres");
               setVideoReady(true);
             }
           },
