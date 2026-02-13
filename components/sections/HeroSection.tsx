@@ -30,7 +30,16 @@ interface YTPlayer {
 export function HeroSection() {
   const playerRef = useRef<YTPlayer | null>(null);
   const [videoReady, setVideoReady] = useState(false);
+  const [countdown, setCountdown] = useState(3);
   const videoId = "v4R1SC3PGxk";
+
+  // Countdown timer
+  useEffect(() => {
+    if (videoReady) return;
+    if (countdown <= 0) return;
+    const timer = setTimeout(() => setCountdown((c) => c - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [countdown, videoReady]);
 
   useEffect(() => {
     const tag = document.createElement("script");
@@ -84,26 +93,21 @@ export function HeroSection() {
 
   return (
     <section id="home" className="relative h-screen w-full overflow-hidden bg-black">
-      {/* Loading overlay — sits on top of everything */}
+      {/* Loading overlay — black screen with countdown */}
       {!videoReady && (
-        <div className="absolute inset-0 z-30 bg-black">
-          {/* Lightweight poster background with slow zoom */}
-          <div className="absolute inset-0 hero-zoom">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/artists-poster.jpg"
-              alt=""
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 z-30 bg-black flex items-center justify-center">
+          <div className="relative flex flex-col items-center gap-6">
+            {/* Countdown number */}
+            <span
+              key={countdown}
+              className="text-[8rem] md:text-[12rem] font-extrabold text-white/10 leading-none font-[family-name:var(--font-unbounded)] countdown-number"
+            >
+              {countdown > 0 ? countdown : ""}
+            </span>
 
-          {/* Pulsing loader */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative flex items-center justify-center">
-              <div className="hero-pulse-ring absolute w-24 h-24 rounded-full border border-[#00f5ff]/40" />
-              <div className="hero-pulse-ring-delay absolute w-16 h-16 rounded-full border border-[#00f5ff]/60" />
-              <div className="w-2 h-2 rounded-full bg-[#00f5ff] hero-pulse-dot" />
+            {/* Thin progress bar */}
+            <div className="w-32 h-[1px] bg-white/10 overflow-hidden">
+              <div className="h-full bg-[#00f5ff] hero-progress-bar" />
             </div>
           </div>
         </div>
