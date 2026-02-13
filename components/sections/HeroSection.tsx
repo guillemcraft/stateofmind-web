@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 declare global {
   interface Window {
@@ -29,10 +30,10 @@ interface YTPlayer {
 
 export function HeroSection() {
   const playerRef = useRef<YTPlayer | null>(null);
+  const [videoReady, setVideoReady] = useState(false);
   const videoId = "v4R1SC3PGxk";
 
   useEffect(() => {
-    // Load YouTube IFrame API
     const tag = document.createElement("script");
     tag.src = "https://www.youtube.com/iframe_api";
     const firstScriptTag = document.getElementsByTagName("script")[0];
@@ -62,8 +63,8 @@ export function HeroSection() {
           },
           onStateChange: (event) => {
             if (event.data === 1) {
-              // Playing - set quality again
               playerRef.current?.setPlaybackQuality("hd1080");
+              setVideoReady(true);
             }
           },
         },
@@ -84,8 +85,26 @@ export function HeroSection() {
 
   return (
     <section id="home" className="relative h-screen w-full overflow-hidden bg-black">
+      {/* Poster image — shown instantly while video loads */}
+      <div
+        className="absolute inset-0 transition-opacity duration-1000"
+        style={{ opacity: videoReady ? 0 : 1 }}
+      >
+        <Image
+          src="/images/artists.png"
+          alt="State Of Mind"
+          fill
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40" />
+      </div>
+
       {/* YouTube Background */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden">
+      <div
+        className="absolute inset-0 w-full h-full overflow-hidden transition-opacity duration-1000"
+        style={{ opacity: videoReady ? 1 : 0 }}
+      >
         <div
           id="yt-player"
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
