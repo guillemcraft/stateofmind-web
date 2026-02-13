@@ -31,21 +31,30 @@ export function HeroSection() {
   const playerRef = useRef<YTPlayer | null>(null);
   const [videoReady, setVideoReady] = useState(false);
   const [countdown, setCountdown] = useState(3);
+  const videoLoadedRef = useRef(false);
   const videoId = "v4R1SC3PGxk";
 
+  // Fixed 1-second countdown: 3, 2, 1
   useEffect(() => {
-    // 3 — page loaded, start loading YouTube API
-    setCountdown(3);
+    if (countdown <= 0) return;
+    const timer = setTimeout(() => setCountdown((c) => c - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [countdown]);
 
+  // When countdown finishes AND video is loaded, reveal
+  useEffect(() => {
+    if (countdown <= 0 && videoLoadedRef.current) {
+      setVideoReady(true);
+    }
+  }, [countdown]);
+
+  useEffect(() => {
     const tag = document.createElement("script");
     tag.src = "https://www.youtube.com/iframe_api";
     const firstScriptTag = document.getElementsByTagName("script")[0];
     firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
 
     window.onYouTubeIframeAPIReady = () => {
-      // 2 — YouTube API loaded, creating player
-      setCountdown(2);
-
       playerRef.current = new window.YT.Player("yt-player", {
         videoId: videoId,
         playerVars: {
@@ -63,17 +72,14 @@ export function HeroSection() {
         },
         events: {
           onReady: (event) => {
-            // 1 — player ready, starting playback
-            setCountdown(1);
             event.target.setPlaybackQuality("hd1080");
             event.target.mute();
             event.target.playVideo();
           },
           onStateChange: (event) => {
             if (event.data === 1) {
-              // 0 — video is playing, reveal it
               playerRef.current?.setPlaybackQuality("hd1080");
-              setCountdown(0);
+              videoLoadedRef.current = true;
               setVideoReady(true);
             }
           },
@@ -107,16 +113,9 @@ export function HeroSection() {
               {countdown > 0 ? countdown : ""}
             </span>
 
-            {/* Progress dots */}
-            <div className="flex gap-2">
-              {[3, 2, 1].map((step) => (
-                <div
-                  key={step}
-                  className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${
-                    countdown <= step ? "bg-[#00f5ff]" : "bg-white/10"
-                  }`}
-                />
-              ))}
+            {/* Thin progress bar */}
+            <div className="w-32 h-[1px] bg-white/10 overflow-hidden">
+              <div className="h-full bg-[#00f5ff] hero-progress-bar" />
             </div>
           </div>
         </div>
