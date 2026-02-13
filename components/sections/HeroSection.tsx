@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 
 declare global {
   interface Window {
@@ -85,41 +84,33 @@ export function HeroSection() {
 
   return (
     <section id="home" className="relative h-screen w-full overflow-hidden bg-black">
-      {/* Loading screen — shown while video loads */}
-      <div
-        className="absolute inset-0 z-20 transition-opacity duration-1000 pointer-events-none"
-        style={{ opacity: videoReady ? 0 : 1 }}
-      >
-        {/* Artist image with slow zoom */}
-        <div className="absolute inset-0 hero-zoom">
-          <Image
-            src="/images/artists.png"
-            alt="State Of Mind"
-            fill
-            priority
-            className="object-cover"
-          />
-        </div>
-        <div className="absolute inset-0 bg-black/60" />
+      {/* Loading overlay — sits on top of everything */}
+      {!videoReady && (
+        <div className="absolute inset-0 z-30 bg-black">
+          {/* Lightweight poster background with slow zoom */}
+          <div className="absolute inset-0 hero-zoom">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/artists-poster.jpg"
+              alt=""
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="absolute inset-0 bg-black/60" />
 
-        {/* Pulsing loader */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="relative flex items-center justify-center">
-            {/* Outer ring */}
-            <div className="hero-pulse-ring absolute w-24 h-24 rounded-full border border-[#00f5ff]/40" />
-            {/* Inner ring */}
-            <div className="hero-pulse-ring-delay absolute w-16 h-16 rounded-full border border-[#00f5ff]/60" />
-            {/* Center dot */}
-            <div className="w-2 h-2 rounded-full bg-[#00f5ff] hero-pulse-dot" />
+          {/* Pulsing loader */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="relative flex items-center justify-center">
+              <div className="hero-pulse-ring absolute w-24 h-24 rounded-full border border-[#00f5ff]/40" />
+              <div className="hero-pulse-ring-delay absolute w-16 h-16 rounded-full border border-[#00f5ff]/60" />
+              <div className="w-2 h-2 rounded-full bg-[#00f5ff] hero-pulse-dot" />
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* YouTube Background */}
-      <div
-        className="absolute inset-0 w-full h-full overflow-hidden transition-opacity duration-1000"
-        style={{ opacity: videoReady ? 1 : 0 }}
-      >
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
         <div
           id="yt-player"
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
