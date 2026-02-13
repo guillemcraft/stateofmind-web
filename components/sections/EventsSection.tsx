@@ -40,6 +40,11 @@ export function EventsSection() {
                 <div className="flex-grow">
                   <h3 className="text-lg md:text-xl font-semibold text-white">
                     {event.venue}
+                    {"note" in event && (
+                      <span className="ml-2 text-sm font-normal text-white/40">
+                        ({event.note})
+                      </span>
+                    )}
                   </h3>
                   <p className="text-white/50 text-sm">
                     {event.city}, {event.country}
