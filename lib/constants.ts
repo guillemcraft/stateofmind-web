@@ -13,6 +13,7 @@ export const SITE_CONFIG = {
 export const NAV_LINKS = [
   { href: "#agenda", label: "Agenda" },
   { href: "#music", label: "Music" },
+  { href: "#listen", label: "Listen" },
   { href: "#about", label: "About" },
   { href: "#support", label: "Support" },
   { href: "#contact", label: "Contact" },
