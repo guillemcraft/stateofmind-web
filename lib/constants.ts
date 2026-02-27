@@ -2,7 +2,7 @@ export const SITE_CONFIG = {
   name: "State Of Mind",
   tagline: "Electronic Music Duo",
   description: "State Of Mind | Electronic Music Duo",
-  email: "booking@stateofmind.com",
+  email: "stateofmind2223@gmail.com",
   social: {
     instagram: "https://instagram.com/stateofmind.live",
     soundcloud: "https://soundcloud.com/state-of-mind-official",
@@ -129,7 +129,7 @@ export const CONTACT_CONTENT = {
   subtitle: "Get In Touch",
   booking: {
     title: "Bookings",
-    email: "booking@stateofmind.com",
+    email: "stateofmind2223@gmail.com",
   },
   press: {
     title: "Press & Media",
