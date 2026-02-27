@@ -12,6 +12,14 @@ export function Footer() {
             {SITE_CONFIG.name}
           </div>
 
+          {/* Email */}
+          <a
+            href="mailto:stateofmind2223@gmail.com"
+            className="text-sm text-white/40 hover:text-white transition-colors"
+          >
+            stateofmind2223@gmail.com
+          </a>
+
           {/* Copyright */}
           <p className="text-sm text-white/40">
             &copy; {currentYear} {SITE_CONFIG.name}. All rights reserved.
