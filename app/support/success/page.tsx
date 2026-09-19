@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "@/components/ui/Logo";
 
 export const metadata = {
   title: "Thank You",
@@ -6,37 +7,18 @@ export const metadata = {
 
 export default function SupportSuccessPage() {
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-6">
-      <div className="text-center max-w-md">
-        {/* Checkmark */}
-        <div className="w-20 h-20 mx-auto mb-8 rounded-full bg-[#00f5ff]/10 flex items-center justify-center">
-          <svg
-            className="w-10 h-10 text-[#00f5ff]"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M4.5 12.75l6 6 9-13.5"
-            />
-          </svg>
-        </div>
-
-        <h1 className="text-3xl md:text-4xl font-extrabold text-white uppercase tracking-tight mb-4">
-          Thank you
-        </h1>
-
-        <p className="text-white/60 text-lg leading-relaxed mb-10">
+    <div className="min-h-[100svh] bg-ink flex items-center justify-center px-6">
+      <div className="max-w-md w-full">
+        <Logo className="w-[120px] mb-12" />
+        <p className="label mb-6">Support</p>
+        <h1 className="headline text-cream text-5xl md:text-6xl">Thank you.</h1>
+        <p className="mt-8 text-lg leading-relaxed text-cream-2">
           Your support means the world to us. Every contribution helps us keep
           creating independent music — no label, no middleman, just pure sound.
         </p>
-
         <Link
           href="/"
-          className="inline-block px-8 py-3 rounded-lg text-sm font-semibold uppercase tracking-wider text-white border border-white/20 hover:border-white/40 transition-all duration-300"
+          className="mt-10 inline-block mono text-[11px] text-cream border border-rule-strong px-6 py-4 hover:bg-cream hover:text-ink transition-colors"
         >
           Back to site
         </Link>

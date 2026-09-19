@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { NAV_LINKS, SITE_CONFIG } from "@/lib/constants";
+import { Logo } from "@/components/ui/Logo";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -9,18 +10,15 @@ export function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 40);
     };
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
@@ -37,11 +35,13 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${
-          isScrolled || isMobileMenuOpen ? "bg-black" : "bg-transparent"
+        className={`fixed top-0 left-0 right-0 z-[100] transition-colors duration-500 ${
+          isScrolled || isMobileMenuOpen
+            ? "bg-ink/95 backdrop-blur-sm border-b border-rule"
+            : "bg-transparent border-b border-transparent"
         }`}
       >
-        <nav className="max-w-[1400px] mx-auto px-6 md:px-12 h-16 md:h-20 flex items-center justify-between">
+        <nav className="max-w-[1400px] mx-auto px-6 md:px-12 h-[72px] md:h-20 flex items-center justify-between">
           {/* Logo */}
           <a
             href="#home"
@@ -49,13 +49,14 @@ export function Header() {
               e.preventDefault();
               handleNavClick("#home");
             }}
-            className="text-xl md:text-2xl font-extrabold tracking-tight text-white uppercase font-[family-name:var(--font-unbounded)]"
+            className="relative z-[101] shrink-0 transition-opacity hover:opacity-80"
+            aria-label={`${SITE_CONFIG.name} — home`}
           >
-            {SITE_CONFIG.name}
+            <Logo className="w-[72px] md:w-[84px]" />
           </a>
 
           {/* Desktop Navigation */}
-          <ul className="hidden lg:flex items-center gap-10">
+          <ul className="hidden lg:flex items-center gap-8">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <a
@@ -64,7 +65,7 @@ export function Header() {
                     e.preventDefault();
                     handleNavClick(link.href);
                   }}
-                  className="text-sm uppercase tracking-widest text-white/80 hover:text-white transition-colors link-hover"
+                  className="mono text-[11px] text-cream/75 hover:text-cream transition-colors link-hover"
                 >
                   {link.label}
                 </a>
@@ -75,23 +76,19 @@ export function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden text-white p-2 relative z-[101]"
+            className="lg:hidden text-cream p-2 relative z-[101]"
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMobileMenuOpen}
           >
-            <div className="w-7 h-5 relative flex flex-col justify-between">
+            <div className="w-7 h-4 relative flex flex-col justify-between">
               <span
-                className={`w-full h-[2px] bg-current transition-all duration-300 ${
-                  isMobileMenuOpen ? "rotate-45 translate-y-[9px]" : ""
+                className={`w-full h-[1.5px] bg-current transition-all duration-300 ${
+                  isMobileMenuOpen ? "rotate-45 translate-y-[7px]" : ""
                 }`}
               />
               <span
-                className={`w-full h-[2px] bg-current transition-all duration-300 ${
-                  isMobileMenuOpen ? "opacity-0" : ""
-                }`}
-              />
-              <span
-                className={`w-full h-[2px] bg-current transition-all duration-300 ${
-                  isMobileMenuOpen ? "-rotate-45 -translate-y-[9px]" : ""
+                className={`w-full h-[1.5px] bg-current transition-all duration-300 ${
+                  isMobileMenuOpen ? "-rotate-45 -translate-y-[7px]" : ""
                 }`}
               />
             </div>
@@ -101,19 +98,20 @@ export function Header() {
 
       {/* Mobile Menu */}
       <div
-        className={`lg:hidden fixed inset-0 z-[99] bg-black transition-all duration-300 ${
+        className={`lg:hidden fixed inset-0 z-[99] bg-ink transition-all duration-300 ${
           isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
         }`}
       >
-        <div className="flex flex-col items-center justify-center h-full">
-          <ul className="flex flex-col items-center gap-8">
+        <div className="flex flex-col justify-end h-full px-6 pb-12 pt-24">
+          <p className="label mb-8">Menu</p>
+          <ul className="flex flex-col gap-1 border-t border-rule">
             {NAV_LINKS.map((link, index) => (
               <li
                 key={link.href}
-                className={`transition-all duration-300 ${
+                className={`border-b border-rule transition-all duration-300 ${
                   isMobileMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
-                style={{ transitionDelay: isMobileMenuOpen ? `${index * 75}ms` : "0ms" }}
+                style={{ transitionDelay: isMobileMenuOpen ? `${index * 60}ms` : "0ms" }}
               >
                 <a
                   href={link.href}
@@ -121,13 +119,15 @@ export function Header() {
                     e.preventDefault();
                     handleNavClick(link.href);
                   }}
-                  className="text-3xl font-bold uppercase tracking-wider text-white hover:text-[#00f5ff] transition-colors"
+                  className="headline flex items-baseline justify-between py-4 text-4xl text-cream active:text-gold"
                 >
                   {link.label}
+                  <span className="label text-cream/40">0{index + 1}</span>
                 </a>
               </li>
             ))}
           </ul>
+          <p className="mono text-[11px] text-muted mt-10">{SITE_CONFIG.location}</p>
         </div>
       </div>
     </>

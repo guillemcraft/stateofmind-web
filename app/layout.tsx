@@ -1,44 +1,42 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Unbounded } from "next/font/google";
+import { Archivo, JetBrains_Mono } from "next/font/google";
+import { SITE_CONFIG } from "@/lib/constants";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
+  axes: ["wdth"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
   subsets: ["latin"],
-});
-
-const unbounded = Unbounded({
-  variable: "--font-unbounded",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://stateofmind.es"),
   title: {
-    default: "State Of Mind | Electronic Music Duo from Barcelona",
+    default: "State Of Mind | DJ Duo · House · Barcelona",
     template: "%s | State Of Mind",
   },
-  description:
-    "State Of Mind is an electronic music duo from Barcelona pushing the boundaries of techno and house. Discover upcoming shows, latest releases, and bookings.",
+  description: SITE_CONFIG.description,
   keywords: [
     "State Of Mind",
     "State Of Mind DJ",
-    "electronic music duo",
-    "Barcelona DJ",
-    "techno",
+    "DJ duo Barcelona",
     "house music",
-    "underground music",
-    "DJ set",
-    "electronic music producer",
-    "Barcelona nightlife",
-    "Zaatar Barcelona",
-    "Volta Barcelona",
+    "tech house",
+    "organic house",
+    "Barcelona DJ",
+    "DJ booking Barcelona",
+    "club DJ",
+    "festival DJ",
+    "rooftop party Barcelona",
+    "La Paloma Barcelona",
   ],
   authors: [{ name: "State Of Mind" }],
   creator: "State Of Mind",
@@ -55,9 +53,9 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "State Of Mind | Electronic Music Duo from Barcelona",
+    title: "State Of Mind | DJ Duo · House · Barcelona",
     description:
-      "Electronic music duo pushing the boundaries of techno and house. Upcoming shows, latest releases, and bookings.",
+      "Barcelona-based DJ duo. House — warm grooves, heavy low end and vocal moments. Bookings for clubs, festivals, labels and brands.",
     url: "https://stateofmind.es",
     siteName: "State Of Mind",
     locale: "es_ES",
@@ -67,16 +65,16 @@ export const metadata: Metadata = {
         url: "/images/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "State Of Mind - Electronic Music Duo",
+        alt: "State Of Mind — DJ duo from Barcelona",
         type: "image/jpeg",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "State Of Mind | Electronic Music Duo",
+    title: "State Of Mind | DJ Duo · House · Barcelona",
     description:
-      "Electronic music duo from Barcelona pushing the boundaries of techno and house.",
+      "Barcelona-based DJ duo. House — warm grooves, heavy low end and vocal moments.",
     images: ["/images/og-image.jpg"],
   },
   alternates: {
@@ -84,8 +82,12 @@ export const metadata: Metadata = {
   },
   category: "music",
   icons: {
-    icon: "/images/artists.png",
-    apple: "/images/artists.png",
+    icon: [
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: "/icon-192.png",
   },
 };
 
@@ -95,17 +97,14 @@ const jsonLd = {
   name: "State Of Mind",
   url: "https://stateofmind.es",
   image: "https://stateofmind.es/images/og-image.jpg",
-  description:
-    "Electronic music duo from Barcelona pushing the boundaries of techno and house.",
-  genre: ["Techno", "House", "Electronic"],
+  description: SITE_CONFIG.description,
+  genre: ["House", "Deep House", "Organic House", "Tech House"],
   foundingLocation: {
     "@type": "Place",
     name: "Barcelona, Spain",
   },
-  sameAs: [
-    "https://instagram.com/stateofmind.live",
-    "https://soundcloud.com/state-of-mind-official",
-  ],
+  email: SITE_CONFIG.email,
+  sameAs: Object.values(SITE_CONFIG.social),
 };
 
 export default function RootLayout({
@@ -114,16 +113,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className="dark">
+    <html lang="en">
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${unbounded.variable} antialiased bg-[#0a0a0a] text-white`}
-      >
+      <body className={`${archivo.variable} ${jetbrains.variable} bg-ink text-cream`}>
         {children}
       </body>
     </html>

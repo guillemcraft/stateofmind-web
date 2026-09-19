@@ -1,54 +1,132 @@
-"use client";
+import { LISTEN_CONTENT, SITE_CONFIG } from "@/lib/constants";
+import { SectionLabel } from "@/components/ui/SectionLabel";
+import { Reveal } from "@/components/ui/Reveal";
 
-const TRACKS = [
-  "https://soundcloud.com/state-of-mind-official/state-of-mind-ba-ilalo",
-  "https://soundcloud.com/state-of-mind-official/state-of-mind-ricos-besos-free-download",
-  "https://soundcloud.com/state-of-mind-official/b09f92d6-030c-415e-931e-87884e31cd92",
-  "https://soundcloud.com/state-of-mind-official/1343cf84-27cd-47d2-99ad-94ceae23bb3a",
-  "https://soundcloud.com/state-of-mind-official/0d37bb4b-9b8c-43c4-bc94-934a07a27e6f",
-  "https://soundcloud.com/state-of-mind-official/4c77d7f0-98e6-4a60-a0ab-86eeed2e00f6",
-];
+function soundcloudEmbed(url: string) {
+  const params = new URLSearchParams({
+    url,
+    color: "#d9a441",
+    auto_play: "false",
+    hide_related: "true",
+    show_comments: "false",
+    show_user: "false",
+    show_reposts: "false",
+    show_teaser: "false",
+    visual: "true",
+  });
+  return `https://w.soundcloud.com/player/?${params.toString()}`;
+}
 
 export function ListenSection() {
   return (
-    <section id="listen" className="py-24 md:py-32 bg-[#111111]">
+    <section id="listen" className="bg-ink py-24 md:py-32 border-t border-rule scroll-mt-20">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-        {/* Header */}
-        <div className="mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-          <div>
-            <p className="section-title text-white/50">Listen</p>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white uppercase tracking-tight">
-              Our Tracks
-            </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-16">
+          {/* Headline */}
+          <div className="lg:col-span-6 flex flex-col justify-between">
+            <SectionLabel number={LISTEN_CONTENT.number} label={LISTEN_CONTENT.label} />
+            <Reveal className="mt-20 lg:mt-48">
+              <h2 className="headline text-cream text-[clamp(3rem,7.5vw,6.5rem)]">
+                {LISTEN_CONTENT.title.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+              </h2>
+            </Reveal>
           </div>
-          <a
-            href="https://soundcloud.com/state-of-mind-official"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-accent self-start md:self-auto shrink-0"
-          >
-            View All on SoundCloud
-          </a>
+
+          {/* Platform rows — page 09 */}
+          <ul className="lg:col-span-6 lg:pt-40 self-end border-t border-rule">
+            {LISTEN_CONTENT.platforms.map((platform, i) => (
+              <Reveal as="li" key={platform.name} delay={i * 70} className="border-b border-rule">
+                <a
+                  href={platform.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-baseline justify-between gap-6 py-6"
+                >
+                  <span className="headline text-cream text-3xl md:text-4xl tracking-[-0.02em] transition-colors group-hover:text-gold">
+                    {platform.name}
+                  </span>
+                  <span className="mono normal-case text-[11px] text-muted group-hover:text-cream transition-colors">
+                    {platform.handle}
+                  </span>
+                </a>
+              </Reveal>
+            ))}
+          </ul>
         </div>
 
-        {/* Tracks Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-          {TRACKS.map((url) => (
-            <div
-              key={url}
-              className="relative overflow-hidden transition-all duration-300 hover:brightness-110"
+        {/* Videos */}
+        <div className="mt-24 md:mt-32">
+          <div className="flex items-baseline justify-between border-b border-rule pb-4">
+            <p className="label">Videos</p>
+            <a
+              href={SITE_CONFIG.social.youtube}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mono text-[11px] text-cream/70 hover:text-cream transition-colors link-hover"
             >
-              <iframe
-                width="100%"
-                height="300"
-                scrolling="no"
-                frameBorder="no"
-                allow="autoplay"
-                src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&color=%2300f5ff&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=true`}
-                className="block"
-              />
-            </div>
-          ))}
+              YouTube ↗
+            </a>
+          </div>
+          <div className="mt-6 grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+            {LISTEN_CONTENT.videos.map((video, i) => (
+              <Reveal key={video.id} delay={(i % 4) * 60}>
+                <a
+                  href={`https://youtu.be/${video.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block photo aspect-video"
+                  aria-label={`Watch on YouTube: ${video.title}`}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
+                    alt={video.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover opacity-90 group-hover:opacity-100"
+                  />
+                  <div className="absolute inset-0 flex items-end p-3 md:p-4 bg-gradient-to-t from-ink/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="mono text-[10px] text-cream">Play ↗</span>
+                  </div>
+                </a>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+
+        {/* Tracks */}
+        <div className="mt-20 md:mt-24">
+          <div className="flex items-baseline justify-between border-b border-rule pb-4">
+            <p className="label">Tracks</p>
+            <a
+              href={SITE_CONFIG.social.soundcloud}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mono text-[11px] text-cream/70 hover:text-cream transition-colors link-hover"
+            >
+              All on SoundCloud ↗
+            </a>
+          </div>
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+            {LISTEN_CONTENT.tracks.map((url, i) => (
+              <Reveal key={url} delay={(i % 3) * 60} className="bg-ink-2">
+                <iframe
+                  title={`SoundCloud player ${i + 1}`}
+                  width="100%"
+                  height="300"
+                  scrolling="no"
+                  frameBorder="no"
+                  loading="lazy"
+                  allow="autoplay"
+                  src={soundcloudEmbed(url)}
+                  className="block"
+                />
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>

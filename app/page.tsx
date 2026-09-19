@@ -1,12 +1,15 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/sections/HeroSection";
-import { EventsSection } from "@/components/sections/EventsSection";
-import { MusicSection } from "@/components/sections/MusicSection";
-import { ListenSection } from "@/components/sections/ListenSection";
 import { AboutSection } from "@/components/sections/AboutSection";
+import { SoundSection } from "@/components/sections/SoundSection";
+import { FormatsSection } from "@/components/sections/FormatsSection";
+import { DatesSection } from "@/components/sections/DatesSection";
+import { LiveSection } from "@/components/sections/LiveSection";
+import { WhySection } from "@/components/sections/WhySection";
+import { ListenSection } from "@/components/sections/ListenSection";
 import { SupportSection } from "@/components/sections/SupportSection";
-import { ContactSection } from "@/components/sections/ContactSection";
+import { BookingsSection } from "@/components/sections/BookingsSection";
 
 export default function Home() {
   return (
@@ -14,12 +17,15 @@ export default function Home() {
       <Header />
       <main>
         <HeroSection />
-        <EventsSection />
-        <MusicSection />
-        <ListenSection />
         <AboutSection />
+        <SoundSection />
+        <FormatsSection />
+        <DatesSection />
+        <LiveSection />
+        <WhySection />
+        <ListenSection />
         <SupportSection />
-        <ContactSection />
+        <BookingsSection />
       </main>
       <Footer />
     </>

@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import { SUPPORT_CONTENT } from "@/lib/constants";
+import { SectionLabel } from "@/components/ui/SectionLabel";
+import { Reveal } from "@/components/ui/Reveal";
 
+/* Cream "paper" page: Stripe tip box */
 export function SupportSection() {
   const [selectedAmount, setSelectedAmount] = useState<number | null>(10);
   const [customAmount, setCustomAmount] = useState("");
@@ -44,96 +47,95 @@ export function SupportSection() {
   }
 
   return (
-    <section id="support" className="py-24 md:py-32 bg-black">
+    <section id="support" className="bg-cream text-ink py-24 md:py-32 scroll-mt-20">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-        {/* Header */}
-        <div className="mb-16">
-          <p className="section-title text-white/50">
-            {SUPPORT_CONTENT.title}
-          </p>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white uppercase tracking-tight">
-            {SUPPORT_CONTENT.subtitle}
-          </h2>
-        </div>
-
-        {/* Card */}
-        <div className="max-w-xl mx-auto">
-              <p className="text-white/60 leading-relaxed text-lg mb-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-16">
+          {/* Copy */}
+          <div className="lg:col-span-6 flex flex-col justify-between">
+            <SectionLabel number={SUPPORT_CONTENT.number} label={SUPPORT_CONTENT.label} className="text-[#a27b32]" />
+            <Reveal className="mt-20 lg:mt-40">
+              <h2 className="headline text-ink text-[clamp(3rem,7.5vw,6.5rem)]">
+                {SUPPORT_CONTENT.title.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+              </h2>
+              <p className="mt-8 max-w-[30rem] text-lg md:text-xl leading-relaxed text-paper-muted">
                 {SUPPORT_CONTENT.description}
               </p>
+            </Reveal>
+          </div>
 
-              {/* Preset amounts */}
-              <div className="grid grid-cols-4 gap-3 mb-4">
-                {SUPPORT_CONTENT.presets.map((amount) => (
+          {/* Tip box */}
+          <Reveal delay={120} className="lg:col-span-5 lg:col-start-8 lg:pt-40 self-end">
+            <p className="label text-[#a27b32] border-b border-ink pb-4">Choose an amount</p>
+
+            <div className="mt-6 grid grid-cols-4 gap-2">
+              {SUPPORT_CONTENT.presets.map((amount) => {
+                const active = !isCustom && selectedAmount === amount;
+                return (
                   <button
                     key={amount}
+                    type="button"
                     onClick={() => {
                       setSelectedAmount(amount);
                       setIsCustom(false);
                       setCustomAmount("");
                       setError("");
                     }}
-                    className={`py-3 rounded-lg text-lg font-semibold transition-all duration-200 cursor-pointer border ${
-                      !isCustom && selectedAmount === amount
-                        ? "bg-[#00f5ff]/10 text-[#00f5ff] border-[#00f5ff] shadow-[0_0_20px_rgba(0,245,255,0.15)]"
-                        : "bg-white/5 text-white/70 border-white/10 hover:border-white/30"
+                    className={`py-4 text-lg font-semibold border transition-colors duration-200 cursor-pointer ${
+                      active
+                        ? "bg-ink text-cream border-ink"
+                        : "bg-transparent text-ink border-rule-ink hover:border-ink"
                     }`}
                   >
                     {amount}€
                   </button>
-                ))}
-              </div>
+                );
+              })}
+            </div>
 
-              {/* Custom amount */}
-              <div className="mb-8">
-                <div
-                  className={`flex items-center rounded-lg border transition-all duration-200 ${
-                    isCustom
-                      ? "border-[#00f5ff] shadow-[0_0_20px_rgba(0,245,255,0.15)]"
-                      : "border-white/10"
-                  }`}
-                >
-                  <span className="pl-4 text-white/50 text-lg">€</span>
-                  <input
-                    type="number"
-                    min="1"
-                    step="1"
-                    placeholder="Custom amount"
-                    value={customAmount}
-                    onFocus={() => {
-                      setIsCustom(true);
-                      setSelectedAmount(null);
-                      setError("");
-                    }}
-                    onChange={(e) => {
-                      setCustomAmount(e.target.value);
-                      setIsCustom(true);
-                      setSelectedAmount(null);
-                      setError("");
-                    }}
-                    className="w-full bg-transparent text-white text-lg py-3 px-2 outline-none placeholder:text-white/30 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                  />
-                </div>
-              </div>
+            <label
+              className={`mt-3 flex items-center border transition-colors duration-200 ${
+                isCustom ? "border-ink" : "border-rule-ink hover:border-ink"
+              }`}
+            >
+              <span className="pl-4 text-paper-muted text-lg">€</span>
+              <input
+                type="number"
+                min="1"
+                step="1"
+                placeholder="Custom amount"
+                value={customAmount}
+                onFocus={() => {
+                  setIsCustom(true);
+                  setSelectedAmount(null);
+                  setError("");
+                }}
+                onChange={(e) => {
+                  setCustomAmount(e.target.value);
+                  setIsCustom(true);
+                  setSelectedAmount(null);
+                  setError("");
+                }}
+                className="w-full bg-transparent text-ink text-lg py-4 px-2 outline-none placeholder:text-ink/40 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              />
+            </label>
 
-              {/* Error */}
-              {error && (
-                <p className="text-red-400 text-sm mb-4">{error}</p>
-              )}
+            {error && <p className="mt-4 text-sm text-[#a3341f]">{error}</p>}
 
-              {/* Pay button */}
-              <button
-                onClick={handleCheckout}
-                disabled={loading || !activeAmount || activeAmount < 1}
-                className="w-full py-4 rounded-lg text-lg font-bold uppercase tracking-wider text-white transition-all duration-300 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed bg-gradient-to-r from-[#00f5ff] to-[#ff00ff] hover:shadow-[0_0_30px_rgba(0,245,255,0.3)] active:scale-[0.98]"
-              >
-                {loading ? "Redirecting..." : `Support — ${activeAmount || 0}€`}
-              </button>
+            <button
+              type="button"
+              onClick={handleCheckout}
+              disabled={loading || !activeAmount || activeAmount < 1}
+              className="mt-6 w-full py-5 bg-ink text-cream mono text-xs font-medium transition-all duration-300 cursor-pointer hover:bg-[#1f1e1b] active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {loading ? "Redirecting…" : `Support — ${activeAmount || 0}€`}
+            </button>
 
-              {/* Stripe note */}
-              <p className="text-center text-white/30 text-sm mt-6">
-                Secure payment via Stripe
-              </p>
+            <p className="mono text-[10px] text-paper-muted mt-4">Secure payment via Stripe</p>
+          </Reveal>
         </div>
       </div>
     </section>

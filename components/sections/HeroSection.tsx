@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { HERO_CONTENT, YOUTUBE_VIDEO_ID } from "@/lib/constants";
 
 declare global {
   interface Window {
@@ -27,27 +28,14 @@ interface YTPlayer {
   mute: () => void;
 }
 
+const YT_STATE_PLAYING = 1;
+
 export function HeroSection() {
   const playerRef = useRef<YTPlayer | null>(null);
-  const [videoReady, setVideoReady] = useState(false);
-  const [countdown, setCountdown] = useState(3);
-  const videoLoadedRef = useRef(false);
-  const videoId = "v4R1SC3PGxk";
+  const [videoPlaying, setVideoPlaying] = useState(false);
 
-  // Fixed 1-second countdown: 3, 2, 1
-  useEffect(() => {
-    if (countdown <= 0) return;
-    const timer = setTimeout(() => setCountdown((c) => c - 1), 1000);
-    return () => clearTimeout(timer);
-  }, [countdown]);
-
-  // When countdown finishes, reveal (don't wait for video on mobile)
-  useEffect(() => {
-    if (countdown <= 0) {
-      setVideoReady(true);
-    }
-  }, [countdown]);
-
+  // Load the IFrame API and start the muted loop. The cover photo stays
+  // underneath, so nothing is shown until the video is really playing.
   useEffect(() => {
     const tag = document.createElement("script");
     tag.src = "https://www.youtube.com/iframe_api";
@@ -56,12 +44,12 @@ export function HeroSection() {
 
     window.onYouTubeIframeAPIReady = () => {
       playerRef.current = new window.YT.Player("yt-player", {
-        videoId: videoId,
+        videoId: YOUTUBE_VIDEO_ID,
         playerVars: {
           autoplay: 1,
           mute: 1,
           loop: 1,
-          playlist: videoId,
+          playlist: YOUTUBE_VIDEO_ID,
           controls: 0,
           showinfo: 0,
           rel: 0,
@@ -77,10 +65,9 @@ export function HeroSection() {
             event.target.playVideo();
           },
           onStateChange: (event) => {
-            if (event.data === 1) {
+            if (event.data === YT_STATE_PLAYING) {
               playerRef.current?.setPlaybackQuality("hd1080");
-              videoLoadedRef.current = true;
-              setVideoReady(true);
+              setVideoPlaying(true);
             }
           },
         },
@@ -93,38 +80,29 @@ export function HeroSection() {
   }, []);
 
   const scrollToContent = () => {
-    const element = document.getElementById("agenda");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section id="home" className="relative h-screen w-full overflow-hidden bg-black">
-      {/* Loading overlay — black screen with countdown */}
+    <section id="home" className="relative h-[100svh] min-h-[600px] w-full overflow-hidden bg-ink">
+      {/* Cover photo — instant, and the fallback wherever autoplay is blocked */}
+      <picture className="absolute inset-0">
+        <source media="(min-width: 768px)" srcSet="/images/hero-desktop.jpg" />
+        <img
+          src="/images/hero-mobile.jpg"
+          alt="State Of Mind at Estació de França, Barcelona"
+          className="w-full h-full object-cover object-[50%_30%]"
+          fetchPriority="high"
+        />
+      </picture>
+
+      {/* YouTube loop, faded in once it's playing */}
       <div
-        className={`absolute inset-0 z-30 bg-black flex items-center justify-center transition-opacity duration-700 ${
-          videoReady ? "opacity-0 pointer-events-none" : "opacity-100"
+        className={`absolute inset-0 overflow-hidden transition-opacity duration-[1400ms] ease-out ${
+          videoPlaying ? "opacity-100" : "opacity-0"
         }`}
+        aria-hidden="true"
       >
-        <div className="relative flex flex-col items-center gap-6">
-          {/* Countdown number */}
-          <span
-            key={countdown}
-            className="text-[8rem] md:text-[12rem] font-extrabold text-white/10 leading-none font-[family-name:var(--font-unbounded)] countdown-number"
-          >
-            {countdown > 0 ? countdown : ""}
-          </span>
-
-          {/* Thin progress bar */}
-          <div className="w-32 h-[1px] bg-white/10 overflow-hidden">
-            <div className="h-full bg-[#00f5ff] hero-progress-bar" />
-          </div>
-        </div>
-      </div>
-
-      {/* YouTube Background */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden">
         <div
           id="yt-player"
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
@@ -137,25 +115,40 @@ export function HeroSection() {
         />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 h-full flex flex-col justify-end pb-20 px-6 md:px-12 max-w-[1400px] mx-auto">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white uppercase tracking-tight animate-fade-up font-[family-name:var(--font-unbounded)]">
-          State Of Mind
+      {/* Legibility gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/25 to-ink/30 pointer-events-none" />
+
+      {/* Cover typography */}
+      <div className="relative z-10 h-full max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col justify-end pb-10 md:pb-12">
+        <h1 className="display text-cream text-[clamp(3.6rem,13vw,10.5rem)] animate-fade-up">
+          {HERO_CONTENT.title.map((line, i) => (
+            <span key={line} className="block" style={{ animationDelay: `${i * 90}ms` }}>
+              {line}
+            </span>
+          ))}
         </h1>
-        <p className="text-lg md:text-xl text-white/80 mt-4 max-w-xl animate-fade-up" style={{ animationDelay: "0.1s" }}>
-          Electronic Music Duo
-        </p>
+
+        <div
+          className="mt-8 md:mt-10 pt-5 border-t border-rule-strong flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-fade-up"
+          style={{ animationDelay: "260ms" }}
+        >
+          <p className="text-lg md:text-xl text-cream">{HERO_CONTENT.subtitle}</p>
+          <p className="mono text-[11px] text-cream/80">
+            <span className="text-gold">{HERO_CONTENT.location}</span>
+            <span className="mx-3 text-cream/40">·</span>
+            {HERO_CONTENT.audience.join(" · ")}
+          </p>
+        </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll cue */}
       <button
         onClick={scrollToContent}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 hover:text-white transition-colors z-10"
-        aria-label="Scroll down"
+        className="absolute right-6 md:right-12 top-[calc(50%+40px)] z-10 hidden md:flex flex-col items-center gap-3 text-cream/50 hover:text-cream transition-colors"
+        aria-label="Scroll to about"
       >
-        <svg className="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
+        <span className="mono text-[10px] [writing-mode:vertical-rl]">Scroll</span>
+        <span className="block w-px h-12 bg-current animate-pulse" />
       </button>
     </section>
   );
