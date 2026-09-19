@@ -13,7 +13,7 @@ const archivo = Archivo({
 const jetbrains = JetBrains_Mono({
   variable: "--font-jetbrains",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "800"],
   display: "swap",
 });
 

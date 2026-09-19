@@ -65,7 +65,7 @@ export function Header() {
                     e.preventDefault();
                     handleNavClick(link.href);
                   }}
-                  className="mono text-[13px] font-semibold text-cream hover:text-gold transition-colors link-hover"
+                  className="mono text-[13px] font-extrabold text-cream hover:text-gold transition-colors link-hover"
                 >
                   {link.label}
                 </a>
