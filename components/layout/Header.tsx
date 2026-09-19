@@ -56,7 +56,7 @@ export function Header() {
           </a>
 
           {/* Desktop Navigation */}
-          <ul className="hidden lg:flex items-center gap-8">
+          <ul className="hidden lg:flex items-center gap-9">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <a
@@ -65,7 +65,7 @@ export function Header() {
                     e.preventDefault();
                     handleNavClick(link.href);
                   }}
-                  className="mono text-[11px] text-cream/75 hover:text-cream transition-colors link-hover"
+                  className="mono text-[13px] font-semibold text-cream hover:text-gold transition-colors link-hover"
                 >
                   {link.label}
                 </a>
