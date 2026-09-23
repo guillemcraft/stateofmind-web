@@ -1,8 +1,32 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { NAV_LINKS, SITE_CONFIG } from "@/lib/constants";
+import { ICON_SOCIALS, NAV_LINKS, PRESSKIT, SITE_CONFIG } from "@/lib/constants";
 import { Logo } from "@/components/ui/Logo";
+import { SocialIcon } from "@/components/ui/SocialIcon";
+
+function SocialLinks() {
+  return (
+    <ul className="flex items-center gap-3">
+      {ICON_SOCIALS.map((social) => (
+        <li key={social.name}>
+          <a
+            href={social.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`State Of Mind on ${social.name}`}
+            className="flex h-9 w-9 items-center justify-center text-cream hover:text-gold transition-colors"
+          >
+            <SocialIcon
+              name={social.icon}
+              className={social.icon === "soundcloud" ? "w-7 h-7" : "w-[18px] h-[18px]"}
+            />
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -56,43 +80,58 @@ export function Header() {
           </a>
 
           {/* Desktop Navigation */}
-          <ul className="hidden lg:flex items-center gap-9">
-            {NAV_LINKS.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick(link.href);
-                  }}
-                  className="mono text-[13px] font-extrabold text-cream hover:text-gold transition-colors link-hover"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+          <div className="hidden lg:flex items-center gap-5 xl:gap-9">
+            <ul className="flex items-center gap-5 xl:gap-9">
+              {NAV_LINKS.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick(link.href);
+                    }}
+                    className="mono text-[13px] font-extrabold text-cream hover:text-gold transition-colors link-hover"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <span className="h-5 w-px bg-cream/25" aria-hidden="true" />
+            <SocialLinks />
+            <a
+              href={PRESSKIT.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mono text-[12px] font-extrabold text-cream border border-cream/60 px-4 py-2.5 hover:bg-cream hover:text-ink transition-colors"
+            >
+              Press kit ↓
+            </a>
+          </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden text-cream p-2 relative z-[101]"
-            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={isMobileMenuOpen}
-          >
-            <div className="w-7 h-4 relative flex flex-col justify-between">
-              <span
-                className={`w-full h-[1.5px] bg-current transition-all duration-300 ${
-                  isMobileMenuOpen ? "rotate-45 translate-y-[7px]" : ""
-                }`}
-              />
-              <span
-                className={`w-full h-[1.5px] bg-current transition-all duration-300 ${
-                  isMobileMenuOpen ? "-rotate-45 -translate-y-[7px]" : ""
-                }`}
-              />
-            </div>
-          </button>
+          {/* Mobile: socials + menu button */}
+          <div className="lg:hidden flex items-center gap-2 relative z-[101]">
+            <SocialLinks />
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-cream p-2"
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
+            >
+              <div className="w-7 h-4 relative flex flex-col justify-between">
+                <span
+                  className={`w-full h-[1.5px] bg-current transition-all duration-300 ${
+                    isMobileMenuOpen ? "rotate-45 translate-y-[7px]" : ""
+                  }`}
+                />
+                <span
+                  className={`w-full h-[1.5px] bg-current transition-all duration-300 ${
+                    isMobileMenuOpen ? "-rotate-45 -translate-y-[7px]" : ""
+                  }`}
+                />
+              </div>
+            </button>
+          </div>
         </nav>
       </header>
 
@@ -127,7 +166,17 @@ export function Header() {
               </li>
             ))}
           </ul>
-          <p className="mono text-[11px] text-muted mt-10">{SITE_CONFIG.location}</p>
+          <div className="mt-10 flex items-center justify-between gap-6">
+            <a
+              href={PRESSKIT.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mono text-[12px] font-extrabold text-cream border border-cream/60 px-5 py-3 active:bg-cream active:text-ink"
+            >
+              Press kit ↓
+            </a>
+            <p className="mono text-[11px] text-muted">{SITE_CONFIG.location}</p>
+          </div>
         </div>
       </div>
     </>

@@ -1,4 +1,4 @@
-import { SITE_CONFIG } from "@/lib/constants";
+import { PRESSKIT, SITE_CONFIG } from "@/lib/constants";
 import { Logo } from "@/components/ui/Logo";
 
 const FOOTER_LINKS = [
@@ -6,6 +6,7 @@ const FOOTER_LINKS = [
   { label: "SoundCloud", href: SITE_CONFIG.social.soundcloud },
   { label: "YouTube", href: SITE_CONFIG.social.youtube },
   { label: "Spotify", href: SITE_CONFIG.social.spotify },
+  { label: "Press kit", href: PRESSKIT.href },
 ];
 
 export function Footer() {

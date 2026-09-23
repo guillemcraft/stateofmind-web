@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { BOOKINGS_CONTENT } from "@/lib/constants";
+import { BOOKINGS_CONTENT, PRESSKIT } from "@/lib/constants";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/ui/Reveal";
 import { Logo } from "@/components/ui/Logo";
@@ -36,20 +36,47 @@ export function BookingsSection() {
             </h2>
           </Reveal>
 
-          <Reveal delay={120} className="mt-10 md:mt-12 flex flex-col sm:flex-row sm:flex-wrap gap-x-16 gap-y-5 text-xl md:text-2xl">
+          <Reveal delay={120} className="mt-10 md:mt-12">
+            <dl className="flex flex-col sm:flex-row sm:flex-wrap gap-x-14 gap-y-6">
+              {BOOKINGS_CONTENT.contacts.map((contact) => {
+                const external = !contact.href.startsWith("mailto:");
+                return (
+                  <div key={contact.label}>
+                    <dt className="label text-muted mb-3">{contact.label}</dt>
+                    <dd>
+                      <a
+                        href={contact.href}
+                        target={external ? "_blank" : undefined}
+                        rel={external ? "noopener noreferrer" : undefined}
+                        className="text-xl md:text-2xl text-cream hover:text-gold transition-colors link-hover"
+                      >
+                        {contact.value}
+                      </a>
+                    </dd>
+                  </div>
+                );
+              })}
+            </dl>
+          </Reveal>
+
+          <Reveal delay={200} className="mt-10 md:mt-12">
             <a
-              href={`mailto:${BOOKINGS_CONTENT.email}`}
-              className="text-cream hover:text-gold transition-colors link-hover w-fit"
-            >
-              {BOOKINGS_CONTENT.email}
-            </a>
-            <a
-              href={BOOKINGS_CONTENT.instagram.url}
+              href={PRESSKIT.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-cream hover:text-gold transition-colors link-hover w-fit"
+              className="group flex w-full sm:inline-flex sm:w-auto items-center justify-between gap-6 bg-cream text-ink px-6 py-4 md:px-8 md:py-5 hover:bg-gold transition-colors"
             >
-              {BOOKINGS_CONTENT.instagram.handle}
+              <span className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-4">
+                <span className="mono text-xs md:text-[13px] font-extrabold whitespace-nowrap">
+                  Download press kit
+                </span>
+                <span className="mono text-[10px] md:text-[11px] text-ink/60 whitespace-nowrap">
+                  {PRESSKIT.meta}
+                </span>
+              </span>
+              <span aria-hidden="true" className="transition-transform group-hover:translate-y-0.5">
+                ↓
+              </span>
             </a>
           </Reveal>
 

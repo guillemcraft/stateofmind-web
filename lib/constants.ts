@@ -13,6 +13,16 @@ export const SITE_CONFIG = {
   },
 };
 
+export const PRESSKIT = {
+  href: "/state-of-mind-presskit-2026.pdf",
+  meta: "PDF · 3.6 MB",
+};
+
+export const ICON_SOCIALS = [
+  { name: "Instagram", icon: "instagram", url: SITE_CONFIG.social.instagram },
+  { name: "SoundCloud", icon: "soundcloud", url: SITE_CONFIG.social.soundcloud },
+] as const;
+
 export const NAV_LINKS = [
   { href: "#about", label: "About" },
   { href: "#sound", label: "Sound" },
@@ -155,7 +165,10 @@ export const BOOKINGS_CONTENT = {
   number: "10",
   label: "Bookings",
   title: ["Let's make", "it a night."],
-  email: SITE_CONFIG.email,
-  instagram: { handle: "@stateofmind.live", url: SITE_CONFIG.social.instagram },
+  contacts: [
+    { label: "Email", value: SITE_CONFIG.email, href: `mailto:${SITE_CONFIG.email}` },
+    { label: "Instagram", value: "@stateofmind.live", href: SITE_CONFIG.social.instagram },
+    { label: "SoundCloud", value: "state-of-mind-official", href: SITE_CONFIG.social.soundcloud },
+  ],
   tagline: "Barcelona, Spain · Good music. Good people. Good times.",
 };
