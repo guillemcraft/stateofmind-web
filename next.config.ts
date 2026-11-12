@@ -1,16 +1,13 @@
 import type { NextConfig } from "next";
 
+// A static site: `next build` writes plain files to out/, which Cloudflare
+// Pages serves (pushes to main deploy there). The tip jar's server step is a
+// Pages Function (functions/api/checkout.ts), and the /presskit short link is
+// in public/_redirects.
 const nextConfig: NextConfig = {
-  // Short link for bookers: stateofmind.es/presskit
-  async redirects() {
-    return [
-      {
-        source: "/presskit",
-        destination: "/state-of-mind-presskit-2026.pdf",
-        permanent: false,
-      },
-    ];
-  },
+  output: "export",
+  // No image server: the photos in public/images are already small JPEGs.
+  images: { unoptimized: true },
 };
 
 export default nextConfig;
