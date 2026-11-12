@@ -8,7 +8,6 @@ import { DatesSection } from "@/components/sections/DatesSection";
 import { LiveSection } from "@/components/sections/LiveSection";
 import { WhySection } from "@/components/sections/WhySection";
 import { ListenSection } from "@/components/sections/ListenSection";
-import { SupportSection } from "@/components/sections/SupportSection";
 import { BookingsSection } from "@/components/sections/BookingsSection";
 
 export default function Home() {
@@ -24,7 +23,6 @@ export default function Home() {
         <LiveSection />
         <WhySection />
         <ListenSection />
-        <SupportSection />
         <BookingsSection />
       </main>
       <Footer />

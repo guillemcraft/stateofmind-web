@@ -29,7 +29,6 @@ export const NAV_LINKS = [
   { href: "#formats", label: "Formats" },
   { href: "#live", label: "Live" },
   { href: "#listen", label: "Listen" },
-  { href: "#support", label: "Support" },
   { href: "#bookings", label: "Bookings" },
 ];
 
@@ -150,19 +149,8 @@ export const LISTEN_CONTENT = {
   ],
 };
 
-export const SUPPORT_CONTENT = {
-  number: "09",
-  label: "Support",
-  title: ["Support", "the artist."],
-  description:
-    "We release music every week independently — no label, no middleman. If our sound moves you, a small contribution helps us keep creating.",
-  presets: [5, 10, 25, 50],
-  currency: "EUR",
-  thankYouMessage: "Thank you for your support! It means the world to us.",
-};
-
 export const BOOKINGS_CONTENT = {
-  number: "10",
+  number: "09",
   label: "Bookings",
   title: ["Let's make", "it a night."],
   contacts: [
